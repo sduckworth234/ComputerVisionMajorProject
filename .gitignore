@@ -1,0 +1,34 @@
+data/
+yolo8n.pt
+output_tracking.mp4
+yolo/
+hand/
+face/
+pose/
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# OS files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+
+# Lock files
+.~lock.*
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Model files (optional - uncomment if you want to exclude large models)
+# *.pt
+# *.pth
+# *.pkl
