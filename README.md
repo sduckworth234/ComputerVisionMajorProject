@@ -12,7 +12,7 @@ Real-time tennis player and ball tracking system using computer vision. Takes vi
 Video Input → Court Corner Detection → Masking → Player & Ball Tracking → Warping → Visualization
 ```
 
-### 1. **Video Input** (`utils/data_loader.py`)
+### 1. **Video Input** - Redundant now (`utils/data_loader.py`)
 - Loads video frames (MP4)
 - Supports single frame or continuous stream
 - Frame extraction and preprocessing
@@ -24,16 +24,16 @@ Video Input → Court Corner Detection → Masking → Player & Ball Tracking �
 
 ### 3. **Player Tracking** (`trackers/player_tracker.py`)
 - **MOG2 Background Subtraction** (history=300, varThreshold=25)
-- **Aggressive Morphology**: 3x3 kernel, 3 open + 7x7 kernel, 2 close iterations
+- **Morphology**: 3x3 kernel, 3 open + 7x7 kernel, 2 close iterations
 - Filters by size (750-30,000 px²) and aspect ratio (0.75-10)
 - Centroid tracking with 150px max distance threshold
-- Maintains player IDs across frames
+- Attempts to maintain player IDs across frames
 
 ### 4. **Ball Tracking** (`trackers/ball_tracker.py`)
 - **MOG2 Background Subtraction** (history=300, varThreshold=25)
 - **Lightweight Morphology**: 3x3 kernel, 2 open iterations (no close)
 - **No sharpening, no color filtering** - pure motion detection
-- Filters by size (50-500 px²) and aspect ratio (0.5-2.0)
+- Filters by size (50-500 px squ) and aspect ratio (0.5-2.0)
 - Excludes player regions (20px margin)
 - Quality scoring: prioritizes circular blobs (~15x15px, area ~225)
 
@@ -50,32 +50,11 @@ Video Input → Court Corner Detection → Masking → Player & Ball Tracking �
 
 ---
 
-## Project Structure
-
-```
-CV_MajorProject/
-├── main.py                    # Main pipeline orchestration
-├── data/
-│   ├── full_video/           # Input tennis videos
-│   └── sample_frames/        # Test frames
-├── utils/
-│   ├── data_loader.py        # Video/frame loading
-│   ├── corner_detector.py    # Court detection & warping
-│   ├── visualisation.py      # Drawing & plotting
-│   └── metrics.py            # Performance metrics
-├── trackers/
-│   ├── player_tracker.py     # Player detection & tracking
-│   └── ball_tracker.py       # Ball detection & tracking
-└── testing/                   # Experimental scripts
-```
-
----
-
 ## Goal
 
 **Build an end-to-end tennis analytics pipeline:**
 
-1. **Input**: Raw TV stream footage (live broadcast)
+1. **Input**: Raw TV stream footage (live broadcast) - classify
 2. **Segmentation**: Detect and extract court regions from multi-camera angles
 3. **Tracking**: Real-time player and ball position tracking
 4. **Warping**: Normalize perspective to bird's-eye view
@@ -87,7 +66,7 @@ CV_MajorProject/
 
 ---
 
-## TBD: TV Stream Video Segmentation Network
+## TBD: Corner detection network
 
 **Challenge**: Current system requires manual cropping and works with single-angle footage.
 
@@ -109,13 +88,10 @@ CV_MajorProject/
 ## Current Status
 ✅ Court corner detection working  
 ✅ Player tracking stable (MOG2 + morphology)  
-✅ Ball tracking simplified (3x3x2, no color)  
+✅ Ball tracking (3x3x2, no color)  
 ✅ Bird's-eye warping functional  
-✅ Real-time visualization complete  
+✅ Real-time visualisation complete  
 
-🔲 TV stream segmentation network (TBD)  
-🔲 Multi-camera angle support (TBD)  
-🔲 Metrics calculation (distance, speed, etc.) (TBD)
 
 ---
 
