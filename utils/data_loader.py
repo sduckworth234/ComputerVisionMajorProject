@@ -2,6 +2,7 @@ import numpy as np
 import cv2
 import os
 
+# DEPRECATED
 
 class DataLoader:
     # Load frames from MP4 video or PNG image sequence

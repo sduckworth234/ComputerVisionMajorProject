@@ -2,6 +2,8 @@
 import cv2
 import numpy as np
 
+# DEPRECATED - not used
+
 def detect_court_corners(image):
     # Detect court corners using Canny edge detection and quadrant search
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)

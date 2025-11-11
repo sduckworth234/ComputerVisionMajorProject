@@ -3,7 +3,7 @@ import cv2
 
 
 class PlayerTracker:
-    # MOG2-based player tracker with Kalman filtering
+    # MOG2-based player tracker+ Kalman filtering
 
     def __init__(self, history=500, var_threshold=50, max_players=2):
         self.bg_subtractor = cv2.createBackgroundSubtractorMOG2(
@@ -20,7 +20,7 @@ class PlayerTracker:
         self.debug = True
 
     def get_centroid(self, x, y, w, h):
-        # Calculate bottom-center of bounding box
+        # Calculate bottom-center of bounding box becaus of feet position
         return int(x + w / 2), int(y + h)
 
     def create_kalman_filter(self):
@@ -47,12 +47,12 @@ class PlayerTracker:
         x_right = min(x1 + w1, x2 + w2)
         y_bottom = min(y1 + h1, y2 + h2)
 
-        if x_right < x_left or y_bottom < y_top:
-            return 0.0
+        # if x_right < x_left or y_bottom < y_top:
+        #     return 0.0
 
         intersection = (x_right - x_left) * (y_bottom - y_top)
         union = w1 * h1 + w2 * h2 - intersection
-        return intersection / (union + 1e-6)
+        return intersection / (union + 1e-6) # add small value to avoid division by zero
 
     def smooth_bbox(self, old_bbox, new_bbox, alpha):
         # Exponential moving average smoothing
@@ -95,7 +95,7 @@ class PlayerTracker:
             for x, y, w, h in detected_blobs:
                 cv2.rectangle(vis_mask, (x, y), (x+w, y+h), (255, 0, 0), 2)
 
-            stats = f"Detected: {len(detected_blobs)} | Tracked: {len(self.player_list)}"
+            stats = f"Detected: {len(detected_blobs)} Tracked: {len(self.player_list)}"
             cv2.putText(vis_mask, stats, (10, vis_mask.shape[0]-10),
                        cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 255), 2)
             cv2.imshow('Player Detection', vis_mask)
@@ -187,7 +187,7 @@ class PlayerTracker:
                     self.player_list.append(new_player)
                     self.next_id += 1
 
-    def track(self, frame, warp_matrix=None):
+    def track(self, frame):
         # Main tracking function
         detected_blobs, fg_mask = self.detect_blobs(frame)
         self.update_tracks(detected_blobs)

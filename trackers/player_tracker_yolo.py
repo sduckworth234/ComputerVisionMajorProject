@@ -7,7 +7,6 @@ class PlayerTrackerYOLO:
     # YOLO-based player tracker with feet position tracking
 
     def __init__(self, model_path='yolov8n.pt', conf_threshold=0.3):
-        print(f"Loading YOLO model: {model_path}")
         self.model = YOLO(model_path)
         self.conf_threshold = conf_threshold
         self.debug = True
@@ -26,7 +25,7 @@ class PlayerTrackerYOLO:
 
                 feet_x = (x1 + x2) // 2
                 feet_y = y2
-
+                # bottom of the bounding box - feet
                 detections.append({
                     'bbox': (x1, y1, x2, y2),
                     'feet': (feet_x, feet_y),

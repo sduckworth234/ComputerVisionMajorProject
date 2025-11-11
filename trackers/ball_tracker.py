@@ -117,7 +117,7 @@ class BallTracker:
             debug_vis = cv2.cvtColor(ball_mask, cv2.COLOR_GRAY2BGR)
             cv2.putText(debug_vis, "Ball Detection", (10, 30),
                        cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 255), 2)
-            cv2.imshow("Ball Detection Mask", debug_vis)
+            cv2.imshow("bball Detection Mask", debug_vis)
 
         return best_candidate
 
